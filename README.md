@@ -35,3 +35,46 @@
 管理会话自动过期
 敏感操作记录日志
 可限制仅指定 Telegram 用户 ID 可登录管理后台
+
+tg机器人积分管理系统
+自定义 Gem
+tg机器人积分管理系统说
+这是一个经过全面审查、逻辑修正和模块化整合的最终代码版本。
+
+核心修正点（Review & Fix）：
+
+数据库并发处理：采用了 upsert (插入或更新) 逻辑，防止新用户积分丢失。
+
+异步会话管理：确保所有数据库操作都在异步上下文中正确关闭，防止连接泄漏。
+
+Redis 键名规范：统一了 Key 的命名空间，防止冲突。
+
+循环依赖解决：优化了导入结构，避免 main.py 和 handlers 之间的循环引用。
+
+📂 项目目录结构
+Plaintext
+tg_bot_system/
+├── main.py                 # 启动入口
+├── config.py               # 配置文件
+├── requirements.txt        # 依赖库
+├── database/
+│   ├── __init__.py
+│   ├── models.py           # 表结构定义
+│   └── engine.py           # 数据库连接与会话
+├── handlers/
+│   ├── __init__.py
+│   ├── admin.py            # 管理员命令与登录
+│   ├── points.py           # 积分监听核心
+│   └── scheduler.py        # 定时任务（榜单与结算）
+└── utils/
+    ├── __init__.py
+    └── redis_client.py     # Redis 封装
+
+🛠 如何运行
+安装 Redis 并启动。
+
+填写 config.py 中的 Token 和 Admin ID。
+
+运行 pip install -r requirements.txt。
+
+运行 python main.py。
